@@ -37,14 +37,12 @@
     }
 
     .order {
-      position: relative;
       padding: 14px;
       border-radius: 6px;
       color: white;
       font-weight: bold;
       margin: 6px 0;
       transition: opacity 0.2s;
-      user-select: none;
     }
 
     .order:hover { opacity: 0.95; }
@@ -61,28 +59,41 @@
   </style>
 </head>
 <body>
-  <h2>Поиск и фильтрация заказов</h2>
 
-  <div class="search-container">
-    <input type="text" id="order-search" placeholder="Поиск по ID, заголовку или клиенту" />
-    <span class="search-clear">✕</span>
+<h2>Поиск и фильтрация заказов</h2>
+
+<div class="search-container">
+  <input type="text" id="order-search" placeholder="Поиск по ID, заголовку или клиенту" />
+  <span class="search-clear">✕</span>
+</div>
+
+<div class="filters">
+  <label><input type="checkbox" id="filter-ready" checked /> Готовые</label>
+  <label><input type="checkbox" id="filter-new" checked /> Новые</label>
+</div>
+
+<div id="orders">
+  <div class="order new" data-id="1" data-status="new">
+    <div class="order-title">Заказ #A-101</div>
+    <div class="order-client">Иван Иванов</div>
   </div>
 
-  <div class="filters">
-    <label><input type="checkbox" class="filter-ready" checked /> Готовые</label>
-    <label><input type="checkbox" class="filter-new" checked /> Новые</label>
+  <div class="order cooking" data-id="2" data-status="cooking">
+    <div class="order-title">Заказ #A-102</div>
+    <div class="order-client">Мария Смирнова</div>
   </div>
+</div>
 
-  <div id="orders">
-    <div class="order new" data-id="1" data-status="new">
-      <div class="order-title">Заказ #A-101</div>
-      <div class="order-client">Иван Иванов</div>
-    </div>
+<script src="task.js"></script>
+<script>
+  setupOrderSearchHandler(
+    document.getElementById('order-search'),
+    document.querySelector('.search-clear'),
+    document.getElementById('filter-ready'),
+    document.getElementById('filter-new'),
+    document.getElementById('orders')
+  );
+</script>
 
-    <div class="order cooking" data-id="2" data-status="cooking">
-      <div class="order-title">Заказ #A-102</div>
-      <div class="order-client">Мария Смирнова</div>
-    </div>
-  </div>
 </body>
 </html>

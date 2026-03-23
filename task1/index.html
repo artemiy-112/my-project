@@ -31,7 +31,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* Детали */
     .order-details {
       margin-top: 10px;
       padding: 12px;
@@ -41,32 +40,36 @@
       font-size: 14px;
       line-height: 1.5;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      /* Плавное появление */
+
       opacity: 0;
-      height: 0;
+      max-height: 0;
       overflow: hidden;
-      transition: opacity 0.2s ease, height 0.2s ease;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
     }
 
-    /* При ховере — показываем */
     .order:hover .order-details,
     .order.show-details .order-details {
       opacity: 1;
-      height: auto;
+      max-height: 200px;
     }
   </style>
 </head>
 <body>
   <h1>Информация о заказах</h1>
+
   <div id="orders">
-    <div class="order" data-id="1" data-client="Иван Иванов" data-items="Бургер, Картошка фри" data-total="420 ₽" data-address="ул. Пушкина, д. 10" data-status="new">
+    <div class="order" data-id="1" data-client="Иван Иванов" data-items="Бургер, Картошка фри" data-total="420 ₽" data-address="ул. Пушкина, д. 10">
       Заказ #1 — Новый
-      <!-- .order-details будет добавлен сюда динамически -->
     </div>
-    <div class="order" data-id="2" data-client="Мария Смирнова" data-items="Салат Цезарь, Суп" data-total="380 ₽" data-address="ул. Ленина, д. 5" data-status="cooking">
+
+    <div class="order" data-id="2" data-client="Мария Смирнова" data-items="Салат Цезарь, Суп" data-total="380 ₽" data-address="ул. Ленина, д. 5">
       Заказ #2 — Готовится
     </div>
   </div>
-
+  <script src="task.js"></script>
+  <script>
+    const container = document.getElementById('orders');
+    setupOrderHandlers(container);
+  </script>
 </body>
 </html>

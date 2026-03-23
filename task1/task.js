@@ -12,10 +12,10 @@ function setupOrderHandlers(container) {
   }
   container.addEventListener('mouseover', (event) => {
     const order = event.target.closest('.order');
-    if (order && container.contains(order)) {
-      if (!order.querySelector('.order-details')) {
-        order.appendChild(createOrderDetails(order));
-      }
+    if (!order || !container.contains(order)) return;
+    if (!order.querySelector('.order-details')) {
+      const details = createOrderDetails(order);
+      order.appendChild(details);
     }
   });
 }

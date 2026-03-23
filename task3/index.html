@@ -10,12 +10,16 @@
       background: #f4f4f4;
     }
 
+    .search-container {
+      position: relative;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
     #order-search {
       width: 100%;
       padding: 8px 30px 8px 10px;
       font-size: 16px;
-      max-width: 400px;
-      margin-bottom: 10px;
     }
 
     .search-clear {
@@ -28,12 +32,6 @@
       display: none;
     }
 
-    .search-container {
-      position: relative;
-      max-width: 400px;
-      margin-bottom: 20px;
-    }
-
     .error-message {
       color: red;
       font-size: 14px;
@@ -41,15 +39,18 @@
       display: none;
     }
 
+    .loading {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
     .order {
-      position: relative;
       padding: 14px;
       border-radius: 6px;
       color: white;
       font-weight: bold;
       margin: 6px 0;
       transition: opacity 0.2s;
-      user-select: none;
     }
 
     .order:hover {
@@ -65,17 +66,32 @@
       margin: 4px 0;
       font-size: 16px;
     }
+
+    .no-results {
+      margin-top: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h2>Поиск заказов с задержкой</h2>
 
-  <div class="search-container">
-    <input type="text" id="order-search" placeholder="Поиск по ID, заголовку или клиенту" />
-    <span class="search-clear">✕</span>
-    <div id="search-error" class="error-message"></div>
-  </div>
+<h2>Поиск заказов с задержкой</h2>
 
-  <div id="orders"></div>
+<div class="search-container">
+  <input type="text" id="order-search" placeholder="Поиск по ID или названию" />
+  <span class="search-clear">✕</span>
+  <div id="search-error" class="error-message"></div>
+</div>
+
+<div id="orders"></div>
+<script src="task.js"></script>
+<script>
+  setupOrderSearchServerHandler(
+    document.getElementById('order-search'),
+    document.querySelector('.search-clear'),
+    document.getElementById('orders')
+  );
+</script>
+
 </body>
 </html>

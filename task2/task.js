@@ -1,56 +1,49 @@
 function setupOrderSearchHandler(searchInput, searchClear, filterReady, filterNew, container) {
-    function filterOrders() {
-        const searchText = searchInput.value.trim().toLowerCase();
-        const orders = container.querySelectorAll('.order');
-        const readyChecked = filterReady.checked;
-        const newChecked = filterNew.checked;
-        const noStatusFilter = !readyChecked && !newChecked;
-        orders.forEach(order => {
-            let searchMatch = true;
-            if (searchText !== '') {
-                const id = (order.dataset.id || '').toLowerCase();
-                const titleEl = order.querySelector('.order-title');
-                const title = titleEl ? titleEl.textContent.toLowerCase() : '';
-                const clientEl = order.querySelector('.order-client');
-                const client = clientEl ? clientEl.textContent.toLowerCase() : '';
-
-                searchMatch = id.includes(searchText) ||
-                             title.includes(searchText) ||
-                             client.includes(searchText);
-            }
-            let statusMatch = true;
-            if (!noStatusFilter) {
-                const status = order.dataset.status;
-                const isReady = status === 'cooking' || status === 'delivery' || status === 'delivered';
-                const isNew = status === 'new';
-
-                statusMatch = (readyChecked && isReady) || (newChecked && isNew);
-            }
-            if (searchMatch && statusMatch) {
-                order.style.display = ''; 
-            } else {
-                order.style.display = 'none';
-            }
-        });
-        if (searchInput.value !== '') {
-            searchClear.style.display = 'inline'; 
-        } else {
-            searchClear.style.display = 'none'; 
-        }
-    }
-    searchInput.addEventListener('input', filterOrders);
-    searchClear.addEventListener('click', function() {
-        searchInput.value = '';    
-        searchInput.focus();         
-        filterOrders();            
+  function filterOrders() {
+    const searchText = searchInput.value.trim().toLowerCase();
+    const orders = container.querySelectorAll('.order');
+    const readyChecked = filterReady.checked;
+    const newChecked = filterNew.checked;
+    orders.forEach(order => {
+      let searchMatch = true;
+      if (searchText) {
+        const id = (order.dataset.id || '').toLowerCase();
+        const title = order.querySelector('.order-title')?.textContent.toLowerCase() || '';
+        const client = order.querySelector('.order-client')?.textContent.toLowerCase() || '';
+        searchMatch =
+          id.includes(searchText) ||
+          title.includes(searchText) ||
+          client.includes(searchText);
+      }
+      const status = order.dataset.status;
+      const isReady = ['cooking', 'delivery', 'delivered'].includes(status);
+      const isNew = status === 'new';
+      let statusMatch = true;
+      if (readyChecked || newChecked) {
+        statusMatch =
+          (readyChecked && isReady) ||
+          (newChecked && isNew);
+      }
+      order.style.display = (searchMatch && statusMatch) ? '' : 'none';
     });
-    filterReady.addEventListener('change', filterOrders);
-    filterNew.addEventListener('change', filterOrders);
+    searchClear.style.display = searchText ? 'inline' : 'none';
+    }
+  searchInput.addEventListener('input', filterOrders);
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchInput.focus();
     filterOrders();
-    const observer = new MutationObserver(filterOrders);
-    observer.observe(container, { childList: true, subtree: false });
+  });
+  filterReady.addEventListener('change', filterOrders);
+  filterNew.addEventListener('change', filterOrders);
+  const observer = new MutationObserver(filterOrders);
+  observer.observe(container, { childList: true });
+  filterOrders();
 }
 
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { setupOrderSearchHandler };
+}
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { setupOrderSearchHandler };
 }
